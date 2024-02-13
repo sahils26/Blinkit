@@ -324,7 +324,7 @@ exports.uploadUserImage = async(req,res) => {
 			process.env.FOLDER_NAME
 		  )
 
-		  console.log("userImage",uploadedImage);
+		//   console.log("userImage",uploadedImage);
 
 
 		const user = await User.findByIdAndUpdate({_id:userId},
@@ -344,7 +344,7 @@ exports.uploadUserImage = async(req,res) => {
 		console.log(error);
 		res.json({
 			success:false,
-			message:"could not upload image"
+			message:"could not upload image",
 		})
 	}
 }
