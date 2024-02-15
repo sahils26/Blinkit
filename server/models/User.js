@@ -21,9 +21,9 @@ const userSchema = new mongoose.Schema({
         required:true,
         trim:true,
     },
-    image:{
+    image:[{
         type:String,
-    },
+    }],
     token:{
         type:String
     },

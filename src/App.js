@@ -5,10 +5,10 @@ import Signup from './Pages/Signup';
 import Home from './Pages/Home';
 import Error from './Pages/Error';
 import VerifyEmail from './Pages/VerifyEmail';
-import { MyProfile } from './Pages/MyProfile';
 import { Success } from './Pages/Success';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from './services/operations/authApi';
+import MyProfile from './Pages/MyProfile';
 
 
 

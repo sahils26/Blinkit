@@ -112,8 +112,8 @@ export function login(email, password, navigate) {
       
       localStorage.setItem("token", JSON.stringify(response.data.token))
       localStorage.setItem("user", JSON.stringify(response.data.user))
-
       navigate("/dashboard/my-profile")
+      
     } catch (error) {
       console.log("LOGIN API ERROR............", error)
       toast.error("Login Failed")
@@ -184,31 +184,81 @@ export function resetPassword(password, confirmPassword, token) {
 
 
 
-export function addUserImage(data,token){
+
+
+
+
+
+
+
+// export async function addUserImage(data,userId){
+//   const toastId = toast.loading("Loading...");
+//   let result = null;
+//   try{
+//     console.log("ADD_IMAGE_API111",ADD_IMAGE_API)
+//     console.log("data",data)
+//     console.log("response",)
+
+//     const response = await apiConnector("POST",ADD_IMAGE_API,{data,userId});
+
+//     console.log("ADD_IMAGE_API Response",response);
+//     if (!response?.data?.success) {
+//       throw new Error("Could Not add Image Details")
+//     }
+//     toast.success("Course Details Updated Successfully")
+//     result = response?.data?.data
+
+
+//   }catch(error){
+//     console.log("ADD_IMAGE_API ERROR............", error)
+//     toast.error(error.message)
+//   }
+//   toast.dismiss(toastId)
+//   return result;
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+export function addUserImage(token,userId, formData) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
-    let result=[];
-    dispatch(setLoading(true))
     try {
-        const response = await apiConnector("POST",ADD_IMAGE_API,data, {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        })
-        console.log(response);
+      
+      console.log("11111111111",userId);
+      const response = await apiConnector(
+        "POST",
+        ADD_IMAGE_API,
+        {formData,userId})
+        
+      console.log(
+        "ADD_IMAGE_API API RESPONSE............",
+        response
+      )
 
-        if (!response?.data?.success) {
-          throw new Error("Could Not Add Course Details")
-        }
-        toast.success("Course Details Added Successfully")
-        result = response?.data?.data
-
-      // navigate("/successfull-upload")
+      if (!response.data.success) {
+        throw new Error(response.data.message)
+      }
+      toast.success(" Picture Added Successfully")
+      console.log("addUserImage",response.data.data)
+      dispatch(setUser(response.data.data))
     } catch (error) {
-      console.log("addUserImage_ApiError",error.message)
-      toast.error(error.message)
+      console.log("ADD_IMAGE_API API ERROR............", error)
+      toast.error("Could Not Update Display Picture")
     }
-    dispatch(setLoading(false))
     toast.dismiss(toastId)
   }
 }
+
+
+
 

@@ -80,6 +80,7 @@ exports.sendOTP=async(req,res)=>{
 
 
 
+
 exports.signup = async (req, res) => {
 	try {
 		// Destructure fields from the request body
@@ -146,7 +147,6 @@ exports.signup = async (req, res) => {
 		// Hash the password
 		const hashedPassword = await bcrypt.hash(password, 10);
 	
-
 		
 		const user = await User.create({
 			firstName,
@@ -169,6 +169,7 @@ exports.signup = async (req, res) => {
 		});
 	}
 };
+
 
 
 
@@ -210,7 +211,7 @@ exports.login = async (req, res) => {
 		// Generate JWT token and Compare Password
 		if (await bcrypt.compare(password, user.password)) {
 			const token = jwt.sign(
-				{ email: user.email, id: user._id, accountType: user.accountType },
+				{ email: user.email, id: user._id },
 				process.env.JWT_SECRET,
 				{
 					expiresIn: "24h",
@@ -314,17 +315,28 @@ exports.changePassword=async(req,res)=>{
 
 
 
+
+
+
+
+
 exports.uploadUserImage = async(req,res) => {
 	try{
-		const{userId}=req.user.id;
-		const userImage = req.files.thumbnailImage
+
+		console.log("111111111111111111",req.user)
+
+		const {userId} = req.body; 
+		console.log("userID from controller",req.body.formData.userImage)
+		const image = req.files.userImage;
 
 		const uploadedImage = await uploadToCloudinary(
-			userImage,
-			process.env.FOLDER_NAME
+			image,
+			process.env.FOLDER_NAME,
+			1000,
+			1000
 		  )
 
-		//   console.log("userImage",uploadedImage);
+		  console.log("userImage",uploadedImage);
 
 
 		const user = await User.findByIdAndUpdate({_id:userId},
@@ -342,7 +354,7 @@ exports.uploadUserImage = async(req,res) => {
 
 	}catch(error){
 		console.log(error);
-		res.json({
+		res.status(500).json({
 			success:false,
 			message:"could not upload image",
 		})

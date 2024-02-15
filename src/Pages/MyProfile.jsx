@@ -7,7 +7,7 @@ import { addUserImage } from '../services/operations/authApi'
 
 
 
-export const MyProfile = () => {
+const MyProfile = () => {
     const {
         register,
         handleSubmit,
@@ -19,22 +19,20 @@ export const MyProfile = () => {
       const navigate = useNavigate();
       const [loading,setLoading] = useState(false);
       const {token} = useSelector((state)=>state.auth);
+      const [imageFile, setImageFile] = useState(null)
+
       
 
 
-    const onSubmit = async(data) => {
-        const formData = new FormData()
-
-        formData.append("userImage", data.userImage)
-
-        setLoading(true);
-
-        const result = await addUserImage(formData,token)
-
-        if(result){
-            navigate("/successfull-upload")
-        }
-
+    const onSubmit = async(data) => { 
+        try {
+            console.log("uploading...")
+            setLoading(true)
+                navigate("/successfull-upload")
+              setLoading(false)
+          }catch (error) {
+            console.log("ERROR MESSAGE - ", error.message)
+          }
 
     }
 
@@ -47,7 +45,7 @@ export const MyProfile = () => {
 
         </div>
 
-        <div className='font-mono'>
+        <div className='font-mono '>
             <Upload
                 name="userImage"
                 label="User Thumbnail"
@@ -62,3 +60,6 @@ export const MyProfile = () => {
     </form>
   )
 }
+
+
+export default MyProfile;

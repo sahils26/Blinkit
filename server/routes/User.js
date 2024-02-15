@@ -29,7 +29,7 @@ router.post("/reset-password-token", resetPasswordToken)
 
 router.post("/reset-password", resetPassword)
 
-router.post("/addUserImage",auth,uploadUserImage)
+router.post("/uploadUserImage",uploadUserImage)
 
 
 module.exports = router;
